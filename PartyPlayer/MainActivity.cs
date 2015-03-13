@@ -1,22 +1,13 @@
-﻿using System;
+﻿using System.Text;
 using Android.App;
 using Android.Content;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
+using Android.Hardware;
 using Android.OS;
+using Android.Widget;
 
 namespace PartyPlayer
 {
-	 using System.Text;
-    using Android.App;
-    using Android.Content;
-    using Android.Hardware;
-    using Android.OS;
-    using Android.Widget;
 
-    namespace MotionDetector
-    {
         [Activity(Label = "MotionDetector", MainLauncher = true, Icon = "@drawable/icon")]
         public class Activity1 : Activity, ISensorEventListener
         {
@@ -63,7 +54,7 @@ namespace PartyPlayer
                 }
             }
         }
-    }
-}
+  }
+
 
 

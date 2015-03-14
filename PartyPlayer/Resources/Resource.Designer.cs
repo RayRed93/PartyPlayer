@@ -102,14 +102,14 @@ namespace PartyPlayer
 			// aapt resource value: 0x7f060005
 			public const int MyButtonn = 2131099653;
 			
-			// aapt resource value: 0x7f060006
-			public const int backButton = 2131099654;
-			
 			// aapt resource value: 0x7f060001
 			public const int button_scan = 2131099649;
 			
 			// aapt resource value: 0x7f060004
 			public const int imageView1 = 2131099652;
+			
+			// aapt resource value: 0x7f060006
+			public const int muteButton = 2131099654;
 			
 			// aapt resource value: 0x7f060009
 			public const int nextButton = 2131099657;

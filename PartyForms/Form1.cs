@@ -30,7 +30,7 @@ namespace PartyForms
             this.Location = new Point(Screen.PrimaryScreen.WorkingArea.Width - this.Width, Screen.PrimaryScreen.WorkingArea.Height - this.Height);
             this.TopMost = true;
             pictureBox1.BackColor = Color.Red;
-            //KeySimulationPC(Keys.MediaNextTrack);
+            connectDevice();
         }
 
         private void transparentStop(object sender, EventArgs e)
@@ -42,42 +42,7 @@ namespace PartyForms
         {
             this.Opacity = .5;
         }
-        private void listBluetoth()
-        {
-            BluetoothClient client = new BluetoothClient();
 
-
-            Task t = Task.Run(() =>
-            {
-                var devices = client.DiscoverDevicesInRange();
-                foreach (BluetoothDeviceInfo d in devices)
-                {
-                    ddd = d.DeviceAddress;
-                    //comboBox1.Items.Add(d.DeviceName);
-                    //listdevices.Add(d.DeviceName);
-                    listdevices.Add(d.DeviceAddress.ToString());
-                }
-
-            });
-            t.Wait();
-            if (t.IsCompleted)
-            {
-                foreach (string d in listdevices)
-                {
-                    comboBox1.Items.Add(d);
-                }
-
-            }
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-            comboBox1.Text = "Searching...";
-            listBluetoth();
-            comboBox1.Text = "Found:" + listdevices.Count;
-
-        }
 
         private void KeySimulationPC(Keys key)
         {
@@ -136,11 +101,8 @@ namespace PartyForms
 
 		BluetoothListener listener;
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        private void connectDevice()
         {
-            string n = comboBox1.Text;
-            MessageBox.Show(n);
-            //BluetoothAddress addr = BluetoothAddress.Parse(n);
             Guid serviceClass;
             Guid UUID = new Guid("00001101-0000-1000-8000-00805f9b34fb");
 
@@ -153,6 +115,7 @@ namespace PartyForms
 			listener.Start();
 
 			Task.Run(() => Listener());
+            
         }
 
 		private void Listener()
@@ -163,15 +126,21 @@ namespace PartyForms
 				{
 					using (var client = listener.AcceptBluetoothClient())
 					{
+                        
+                            pictureBox1.BackColor = Color.Green;
+                            
+                            if (label2.InvokeRequired)
+                            {
+                                label2.Invoke(new MethodInvoker(delegate { label2.Text = client.RemoteMachineName; }));
+                            }
+
 						using (var streamReader = new StreamReader(client.GetStream()))
 						{
 							try
 							{
-								var content = streamReader.ReadToEnd();
-								if (!string.IsNullOrEmpty(content))
-								{
-									MessageBox.Show(content);
-								}
+                                var buffer = new char[4];
+                                var content = streamReader.ReadLine();
+                                KeySimulationPC((Keys)int.Parse(content));
 							}
 							catch (IOException)
 							{
@@ -187,20 +156,6 @@ namespace PartyForms
 				// todo handle the exception
 				// for the sample it will be ignored
 			}
-		}
-
-        static void Process(IAsyncResult result)
-        {
-            MessageBox.Show("Dupa");
         }
-
-        private static void DataReceivedHandler(object sender,SerialDataReceivedEventArgs e)
-        {
-            MessageBox.Show("Dupa");
-        }
-
-      
-        
-
     }
 }

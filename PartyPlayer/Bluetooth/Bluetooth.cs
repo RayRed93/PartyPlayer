@@ -5,7 +5,6 @@ using System.Text;
 using Android.App;
 using Android.Content;
 using System.Threading.Tasks;
-
 using Android.OS;
 using Android.Runtime;
 using Android.Views;
@@ -17,8 +16,8 @@ namespace PartyPlayer.Bluetooth
 {
 	class Bluetooth
 	{
-		private BluetoothSocket btSocket;
-		public async Task DeviceConnect(byte[] buffer)
+		private static BluetoothSocket btSocket;
+		public static async Task DeviceConnect(string selected_adress)
 		{
 			BluetoothAdapter btAdapter = BluetoothAdapter.DefaultAdapter;
 			
@@ -32,23 +31,19 @@ namespace PartyPlayer.Bluetooth
 			
 			
 			BluetoothDevice device = (from bd in btAdapter.BondedDevices
-									  where bd.Name == "NameOfTheDevice"
+									  where bd.Address == selected_adress
 									  select bd).FirstOrDefault();
-
+		
 			if (device == null)
 				Toast.MakeText(Application.Context, "Named device not found", ToastLength.Short);
 
 			btSocket = device.CreateRfcommSocketToServiceRecord(UUID.FromString("00001101-0000-1000-8000-00805f9b34fb"));
 			await btSocket.ConnectAsync();
-
-			//await _socket.InputStream.ReadAsync(buffer, 0, buffer.Length);
-
-			
-
-			
-
+			var o =btSocket.OutputStream;
+			o.WriteByte(7);
+			//await _socket.InputStream.ReadAsync(buffer, 0, buffer.Length)
 		}
-		private async Task SendData(byte[] buffer)
+		public static async Task SendData(byte[] buffer)
 		{
 
 			await btSocket.OutputStream.WriteAsync(buffer, 0, buffer.Length);

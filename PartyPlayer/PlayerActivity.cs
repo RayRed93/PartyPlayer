@@ -24,7 +24,7 @@ namespace PartyPlayer
 			RequestedOrientation = Android.Content.PM.ScreenOrientation.Portrait;
 			SetContentView(Resource.Layout.Player);
 
-			FindViewById<Button>(Resource.Id.backButton).Click += (sender, e) => { StartActivity(new Intent(this, typeof(MainActivity))); };
+			FindViewById<Button>(Resource.Id.muteButton).Click += (sender, e) => { Bluetooth.Bluetooth.SendData("173"); };
 			FindViewById<Button>(Resource.Id.prevButton).Click += (sender, e) => { Bluetooth.Bluetooth.SendData("177"); };
 			FindViewById<Button>(Resource.Id.playButton).Click += (sender, e) => { Bluetooth.Bluetooth.SendData("179"); };
 			FindViewById<Button>(Resource.Id.nextButton).Click += (sender, e) => { Bluetooth.Bluetooth.SendData("176"); };

@@ -37,9 +37,9 @@ namespace PartyPlayer.Bluetooth
 			if (device == null)
 				Toast.MakeText(Application.Context, "Named device not found", ToastLength.Short);
 
-			btSocket = device.CreateRfcommSocketToServiceRecord(UUID.FromString("00001101-0000-1000-8000-00805f9b34fb"));
+            btSocket = device.CreateRfcommSocketToServiceRecord(UUID.FromString("00001101-0000-1000-8000-00805f9b34fb"));
 			await btSocket.ConnectAsync();
-			var o =btSocket.OutputStream;
+			var o = btSocket.OutputStream;
 			o.WriteByte(7);
 			//await _socket.InputStream.ReadAsync(buffer, 0, buffer.Length)
 		}

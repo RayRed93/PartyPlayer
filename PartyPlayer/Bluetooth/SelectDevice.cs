@@ -14,6 +14,28 @@ using Android.Bluetooth;
 
 namespace PartyPlayer.Bluetooth
 {
+
+	public class BluetoothDevicesAdapter : ArrayAdapter<string>
+	{
+		public BluetoothDevicesAdapter(Context context, int ResourceId) : base(context, ResourceId)
+		{
+		}
+
+		public override View GetView(int position, View convertView, ViewGroup parent)
+		{
+			View view = convertView;
+			if (view == null)
+				view =  (base.Context.GetSystemService(Activity.LayoutInflaterService) as LayoutInflater).Inflate(Resource.Layout.bluetooth_device, null);
+			if (position < SelectDevice.pariedDevicesCount)
+			{
+				view.FindViewById<Button>(Resource.Id.txtView).SetCompoundDrawables(base.Context.Resources.GetDrawable(Resource.Drawable.paired),
+					null, null, null);
+			}
+
+			return view;
+		}
+	}
+
 	[Activity(Label = "SelectDevice")]
 	public class SelectDevice : Activity
 	{
@@ -22,14 +44,14 @@ namespace PartyPlayer.Bluetooth
 		private const bool Debug = true;
 
 		public const string EXTRA_DEVICE_ADDRESS = "device_address";
+		public static int pariedDevicesCount = 0;
 
 		
 		private BluetoothAdapter btAdapter;
-		private static ArrayAdapter<string> pairedDevicesArrayAdapter;
-		private static ArrayAdapter<string> newDevicesArrayAdapter;
+		private static BluetoothDevicesAdapter pairedDevicesArrayAdapter;
+		private static BluetoothDevicesAdapter newDevicesArrayAdapter;
 		private Receiver receiver;
 		private static Button scanButton;
-		private int pariedDevicesCount = 0;
 
 		protected override void OnCreate(Bundle bundle)
 		{
@@ -50,7 +72,7 @@ namespace PartyPlayer.Bluetooth
 				(sender as View).Enabled = false;
 			};
 
-			pairedDevicesArrayAdapter = new ArrayAdapter<string>(this, Resource.Layout.bluetooth_device);
+			pairedDevicesArrayAdapter = new BluetoothDevicesAdapter(this, Resource.Layout.bluetooth_device);
 			
 			var pairedListView = FindViewById<ListView>(Resource.Id.paired_devices);
 			pairedListView.Adapter = pairedDevicesArrayAdapter;

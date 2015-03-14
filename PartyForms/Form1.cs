@@ -134,30 +134,60 @@ namespace PartyForms
             }
         }
 
+		BluetoothListener listener;
+
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             string n = comboBox1.Text;
             MessageBox.Show(n);
-            BluetoothAddress addr = BluetoothAddress.Parse(n);
+            //BluetoothAddress addr = BluetoothAddress.Parse(n);
             Guid serviceClass;
             Guid UUID = new Guid("00001101-0000-1000-8000-00805f9b34fb");
 
             serviceClass = BluetoothService.RFCommProtocol;
-           
-            var ep = new BluetoothEndPoint(addr, serviceClass);
-            var cli = new BluetoothClient();
-            cli.Connect(ep);
-            
-            Stream peerStream = cli.GetStream();
-            byte[] buf = new byte[1000];
-            int readLen = peerStream.Read(buf, 0, buf.Length);
-            if (readLen == 0) {
-                Console.WriteLine("Connection is closed");
-            } else {
-                Console.WriteLine("Recevied {0} bytes", readLen);
-            }
-                MessageBox.Show("Koniec połączenia");
+
+			listener = new BluetoothListener(UUID)
+			{
+				ServiceName = "MyService"
+			};
+			listener.Start();
+
+			Task.Run(() => Listener());
         }
+
+		private void Listener()
+		{
+			try
+			{
+				while (true)
+				{
+					using (var client = listener.AcceptBluetoothClient())
+					{
+						using (var streamReader = new StreamReader(client.GetStream()))
+						{
+							try
+							{
+								var content = streamReader.ReadToEnd();
+								if (!string.IsNullOrEmpty(content))
+								{
+									MessageBox.Show(content);
+								}
+							}
+							catch (IOException)
+							{
+								client.Close();
+								break;
+							}
+						}
+					}
+				}
+			}
+			catch (Exception exception)
+			{
+				// todo handle the exception
+				// for the sample it will be ignored
+			}
+		}
 
         static void Process(IAsyncResult result)
         {

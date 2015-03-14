@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Threading;
+using System.Collections.Generic;
+using System.Linq;
 using Android.App;
 using Android.Content;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using Android.Bluetooth;
 
 using PartyPlayer.Bluetooth;
 using System.Threading.Tasks;
@@ -16,17 +19,13 @@ namespace PartyPlayer
 	[Activity(Label = "PartyPlayer", MainLauncher = true, Icon = "@drawable/icon")]
 	public class MainActivity : Activity
 	{
-		int count = 1;
 
 		protected override void OnCreate(Bundle bundle)
 		{
 			base.OnCreate(bundle);
 
-			// Set our view from the "main" layout resource
+			
 			SetContentView(Resource.Layout.Main);
-
-			// Get our button from the layout resource,
-			// and attach an event to it
 			
 			Button button = FindViewById<Button>(Resource.Id.MyButtonn);
 
@@ -39,16 +38,22 @@ namespace PartyPlayer
 		protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
 		{
 			base.OnActivityResult(requestCode, resultCode, data);
+
 			var address = data.GetStringExtra(SelectDevice.EXTRA_DEVICE_ADDRESS);
-			AsyncConnect(address);
+
+			BluetoothAdapter btAdapter = BluetoothAdapter.DefaultAdapter;
+			PPApplication.device = (from bd in btAdapter.BondedDevices
+									where bd.Address == address
+									  select bd).FirstOrDefault();
+			AsyncConnect();
+			StartActivity(new Intent(this, typeof(PlayerActivity)));
 			
 		}
 
-		private async Task AsyncConnect(string address)
+		private void AsyncConnect()
 		{
-			await Bluetooth.Bluetooth.DeviceConnect(address);
-			Bluetooth.Bluetooth.SendData(Encoding.Default.GetBytes("slawek pedal"));
-
+			Bluetooth.Bluetooth.DeviceConnect();
+			Bluetooth.Bluetooth.SendData("176");
 		}
 	}
 }

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:minWidth="25px"
+    android:minHeight="25px">
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Go back"
+        android:layout_alignParentLeft="true" />
+    <Button
+        android:id="@+id/prevButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Prev"
+        android:layout_toLeftOf="@+id/playButton"
+        android:layout_centerVertical="true" />
+    <Button
+        android:id="@+id/playButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Play"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+    <Button
+        android:id="@+id/nextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Next"
+        android:layout_toRightOf="@+id/playButton"
+        android:layout_centerVertical="true" />
+    <Button
+        android:id="@+id/volumeUpButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="V up"
+        android:layout_alignParentRight="true" />
+    <Button
+        android:id="@+id/volumeDownButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="V down"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/volumeUpButton" />
+</RelativeLayout>

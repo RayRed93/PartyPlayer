@@ -16,6 +16,7 @@ namespace PartyForms
     public partial class Form1 : Form
     {
         List<string> listdevices = new List<string>();
+        bool flags = true;
         public Form1()
         {
             InitializeComponent();
@@ -62,6 +63,9 @@ namespace PartyForms
                     break;
                 case Keys.VolumeMute:
                     new InputSimulator().Keyboard.KeyPress(WindowsInput.Native.VirtualKeyCode.VOLUME_MUTE);
+                    break;
+                case (Keys)0x97:
+                    flags = false;
                     break;
             }
         }
@@ -117,30 +121,41 @@ namespace PartyForms
             StreamReader streamReader;
             try
             {
-
-                using (var client = listener.AcceptBluetoothClient())
+                while (true)
                 {
-
-                    pictureBox1.BackColor = Color.Green;
-                    if (label2.InvokeRequired)
+                    flags = true;
+                    using (var client = listener.AcceptBluetoothClient())
                     {
-                        label2.Invoke(new MethodInvoker(delegate { label2.Text = client.RemoteMachineName; }));
-                    }
-                    streamReader = new StreamReader(client.GetStream());
-                    while (true)
-                    {
-                        try
-                        {
-                            var buffer = new char[4];
-                            var content = streamReader.ReadLine();
-                            KeySimulationPC((Keys)int.Parse(content));
-                        }
-                        catch (IOException)
-                        {
-                            client.Close();
-                            break;
-                        }
 
+                        pictureBox1.BackColor = Color.Green;
+                        if (label2.InvokeRequired)
+                        {
+                            label2.Invoke(new MethodInvoker(delegate { label2.Text = client.RemoteMachineName; }));
+                        }
+                        streamReader = new StreamReader(client.GetStream());
+                        while (flags)
+                        {
+                            try
+                            {
+                                var buffer = new char[4];
+                                var content = streamReader.ReadLine();
+                                KeySimulationPC((Keys)int.Parse(content));
+                            }
+                            catch (IOException)
+                            {
+                                client.Close();
+                                break;
+                            }
+
+                        }
+                        if (!flags)
+                        {
+                            pictureBox1.BackColor = Color.Red;
+                            if (label2.InvokeRequired)
+                            {
+                                label2.Invoke(new MethodInvoker(delegate { label2.Text = "none"; }));
+                            }
+                        }
                     }
                 }
             }
@@ -154,6 +169,7 @@ namespace PartyForms
         private void close_Click(object sender, EventArgs e)
         {
             this.Close();
+            PartyPlayer.Dispose();
         }
 
     }

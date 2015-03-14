@@ -1,55 +1,60 @@
-﻿using System;
-using System.Threading;
+﻿using System.Text;
 using Android.App;
 using Android.Content;
-using Android.Runtime;
-using Android.Views;
-using Android.Widget;
+using Android.Hardware;
 using Android.OS;
-
-using PartyPlayer.Bluetooth;
-using System.Threading.Tasks;
-using System.Text;
+using Android.Widget;
 
 namespace PartyPlayer
 {
-	[Activity(Label = "PartyPlayer", MainLauncher = true, Icon = "@drawable/icon")]
-	public class MainActivity : Activity
-	{
-		int count = 1;
 
-		protected override void OnCreate(Bundle bundle)
-		{
-			base.OnCreate(bundle);
+        [Activity(Label = "MotionDetector", MainLauncher = true, Icon = "@drawable/icon")]
+        public class Activity1 : Activity, ISensorEventListener
+        {
+            private static readonly object _syncLock = new object();
+            private SensorManager _sensorManager;
+            private TextView _sensorTextView;
 
-			// Set our view from the "main" layout resource
-			SetContentView(Resource.Layout.Main);
+            protected override void OnCreate(Bundle bundle)
+            {
+                base.OnCreate(bundle);
+                SetContentView(Resource.Layout.Main);
+                _sensorManager = (SensorManager)GetSystemService(SensorService);
+                _sensorTextView = FindViewById<TextView>(Resource.Id.accelerometer_text);
+            }
 
-			// Get our button from the layout resource,
-			// and attach an event to it
-			
-			Button button = FindViewById<Button>(Resource.Id.MyButton);
+            protected override void OnResume()
+            {
+                base.OnResume();
+                _sensorManager.RegisterListener(this, _sensorManager.GetDefaultSensor(SensorType.Accelerometer), SensorDelay.Ui);
+            }
 
-			button.Click += delegate 
-			{ 
-				StartActivityForResult(new Intent(this, typeof(SelectDevice)), 1); 
-			};
-		}
+            protected override void OnPause()
+            {
+                base.OnPause();
+                _sensorManager.UnregisterListener(this);
+            }
 
-		protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
-		{
-			base.OnActivityResult(requestCode, resultCode, data);
-			var address = data.GetStringExtra(SelectDevice.EXTRA_DEVICE_ADDRESS);
-			AsyncConnect(address);
-			
-		}
+            public void OnAccuracyChanged(Sensor sensor, SensorStatus accuracy)
+            {
+                // We don't want to do anything here.
+            }
 
-		private async Task AsyncConnect(string address)
-		{
-			await Bluetooth.Bluetooth.DeviceConnect(address);
-			Bluetooth.Bluetooth.SendData(Encoding.Default.GetBytes("slawek pedal"));
+            public void OnSensorChanged(SensorEvent e)
+            {
+                lock (_syncLock)
+                {
+                    var text = new StringBuilder("x = ")
+                        .Append(e.Values[0])
+                        .Append(", y=")
+                        .Append(e.Values[1])
+                        .Append(", z=")
+                        .Append(e.Values[2]);
+                    _sensorTextView.Text = text.ToString();
+                }
+            }
+        }
+  }
 
-		}
-	}
-}
+
 

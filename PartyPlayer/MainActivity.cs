@@ -16,7 +16,7 @@ using System.Text;
 
 namespace PartyPlayer
 {
-	[Activity(Label = "PartyPlayer", MainLauncher = true, Icon = "@drawable/icon")]
+	[Activity(Label = "", MainLauncher = true, Icon = "@drawable/icons")]
 	public class MainActivity : Activity
 	{
 
@@ -38,6 +38,8 @@ namespace PartyPlayer
 		protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
 		{
 			base.OnActivityResult(requestCode, resultCode, data);
+			if (resultCode != Result.Ok)
+				return;
 
 			var address = data.GetStringExtra(SelectDevice.EXTRA_DEVICE_ADDRESS);
 
@@ -46,14 +48,19 @@ namespace PartyPlayer
 									where bd.Address == address
 									  select bd).FirstOrDefault();
 			AsyncConnect();
-			StartActivity(new Intent(this, typeof(PlayerActivity)));
 			
 		}
 
-		private void AsyncConnect()
+		private async Task AsyncConnect()
 		{
-			Bluetooth.Bluetooth.DeviceConnect();
-			Bluetooth.Bluetooth.SendData("176");
+			await Bluetooth.Bluetooth.DeviceConnect();
+			if (!Bluetooth.Bluetooth.IsConnected)
+			{
+				RunOnUiThread(() => FindViewById<Button>(Resource.Id.MyButtonn).Text ="Dupa");
+			}
+			else
+				StartActivity(new Intent(this, typeof(PlayerActivity)));
+			
 		}
 	}
 }

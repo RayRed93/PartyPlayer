@@ -45,10 +45,46 @@ namespace PartyPlayer
 		{
 			
 			// aapt resource value: 0x7f020000
-			public const int Icon = 2130837504;
+			public const int bluetooth = 2130837504;
 			
 			// aapt resource value: 0x7f020001
-			public const int monoandroidsplash = 2130837505;
+			public const int bluetooth_pp = 2130837505;
+			
+			// aapt resource value: 0x7f020002
+			public const int button1 = 2130837506;
+			
+			// aapt resource value: 0x7f020003
+			public const int icons = 2130837507;
+			
+			// aapt resource value: 0x7f020004
+			public const int logo = 2130837508;
+			
+			// aapt resource value: 0x7f020005
+			public const int minus = 2130837509;
+			
+			// aapt resource value: 0x7f020006
+			public const int monoandroidsplash = 2130837510;
+			
+			// aapt resource value: 0x7f020007
+			public const int mute = 2130837511;
+			
+			// aapt resource value: 0x7f020008
+			public const int next = 2130837512;
+			
+			// aapt resource value: 0x7f020009
+			public const int paired = 2130837513;
+			
+			// aapt resource value: 0x7f02000a
+			public const int pause = 2130837514;
+			
+			// aapt resource value: 0x7f02000b
+			public const int play = 2130837515;
+			
+			// aapt resource value: 0x7f02000c
+			public const int plus = 2130837516;
+			
+			// aapt resource value: 0x7f02000d
+			public const int prev = 2130837517;
 			
 			static Drawable()
 			{
@@ -63,35 +99,38 @@ namespace PartyPlayer
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f060003
-			public const int MyButtonn = 2131099651;
-			
 			// aapt resource value: 0x7f060004
-			public const int backButton = 2131099652;
+			public const int MyButtonn = 2131099652;
+			
+			// aapt resource value: 0x7f060005
+			public const int backButton = 2131099653;
 			
 			// aapt resource value: 0x7f060000
 			public const int button_scan = 2131099648;
 			
-			// aapt resource value: 0x7f060007
-			public const int nextButton = 2131099655;
+			// aapt resource value: 0x7f060003
+			public const int imageView1 = 2131099651;
+			
+			// aapt resource value: 0x7f060008
+			public const int nextButton = 2131099656;
 			
 			// aapt resource value: 0x7f060002
 			public const int paired_devices = 2131099650;
 			
-			// aapt resource value: 0x7f060006
-			public const int playButton = 2131099654;
+			// aapt resource value: 0x7f060007
+			public const int playButton = 2131099655;
 			
-			// aapt resource value: 0x7f060005
-			public const int prevButton = 2131099653;
+			// aapt resource value: 0x7f060006
+			public const int prevButton = 2131099654;
 			
 			// aapt resource value: 0x7f060001
 			public const int title_paired_devices = 2131099649;
 			
-			// aapt resource value: 0x7f060009
-			public const int volumeDownButton = 2131099657;
+			// aapt resource value: 0x7f06000a
+			public const int volumeDownButton = 2131099658;
 			
-			// aapt resource value: 0x7f060008
-			public const int volumeUpButton = 2131099656;
+			// aapt resource value: 0x7f060009
+			public const int volumeUpButton = 2131099657;
 			
 			static Id()
 			{

@@ -14,13 +14,14 @@ using PartyPlayer.Bluetooth;
 
 namespace PartyPlayer
 {
-	[Activity(Label = "PlayerActivity")]
+	[Activity(Label = "Player")]
 	public class PlayerActivity : Activity
 	{
 		protected override void OnCreate(Bundle bundle)
 		{
 			base.OnCreate(bundle);
 
+			RequestedOrientation = Android.Content.PM.ScreenOrientation.Portrait;
 			SetContentView(Resource.Layout.Player);
 
 			FindViewById<Button>(Resource.Id.backButton).Click += (sender, e) => { StartActivity(new Intent(this, typeof(MainActivity))); };
@@ -29,6 +30,22 @@ namespace PartyPlayer
 			FindViewById<Button>(Resource.Id.nextButton).Click += (sender, e) => { Bluetooth.Bluetooth.SendData("176"); };
 			FindViewById<Button>(Resource.Id.volumeUpButton).Click += (sender, e) => { Bluetooth.Bluetooth.SendData("175"); };
 			FindViewById<Button>(Resource.Id.volumeDownButton).Click += (sender, e) => { Bluetooth.Bluetooth.SendData("174"); };
+			
 		}
+
+		protected override void OnStop()
+		{
+			base.OnStop();
+			Bluetooth.Bluetooth.SendData("151");
+		}
+
+		//protected override void OnResume()
+		//{
+		//	base.OnResume();
+		//	if(!Bluetooth.Bluetooth.IsConnected)
+		//		Bluetooth.Bluetooth.DeviceConnect();
+		//}
+
+		
 	}
 }

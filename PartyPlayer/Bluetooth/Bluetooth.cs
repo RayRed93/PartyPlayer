@@ -17,6 +17,13 @@ namespace PartyPlayer.Bluetooth
 	class Bluetooth
 	{
 		private static BluetoothSocket btSocket;
+		public static bool IsConnected 
+		{ 
+			get
+			{
+				return btSocket.IsConnected;
+			}
+		}
 
 		
 		public static async Task DeviceConnect()

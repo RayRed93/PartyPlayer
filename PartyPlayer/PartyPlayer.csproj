@@ -80,10 +80,20 @@
     <AndroidResource Include="Resources\values\Strings.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\Icon.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Properties\AndroidManifest.xml" />
+    <AndroidResource Include="Resources\drawable\button1.png" />
+    <AndroidResource Include="Resources\drawable\logo.png" />
+    <AndroidResource Include="Resources\drawable\icons.png" />
+    <AndroidResource Include="Resources\drawable\bluetooth.png" />
+    <AndroidResource Include="Resources\drawable\paired.png" />
+    <AndroidResource Include="Resources\drawable\minus.png" />
+    <AndroidResource Include="Resources\drawable\mute.png" />
+    <AndroidResource Include="Resources\drawable\next.png" />
+    <AndroidResource Include="Resources\drawable\pause.png" />
+    <AndroidResource Include="Resources\drawable\play.png" />
+    <AndroidResource Include="Resources\drawable\plus.png" />
+    <AndroidResource Include="Resources\drawable\prev.png" />
+    <AndroidResource Include="Resources\drawable\bluetooth_pp.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

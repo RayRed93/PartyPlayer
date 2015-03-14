@@ -17,32 +17,37 @@
         android:layout_height="wrap_content"
         android:text="Prev"
         android:layout_toLeftOf="@+id/playButton"
-        android:layout_centerVertical="true" />
+        android:layout_centerVertical="true"
+        android:background="@drawable/prev" />
     <Button
         android:id="@+id/playButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Play"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/play" />
     <Button
         android:id="@+id/nextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Next"
         android:layout_toRightOf="@+id/playButton"
-        android:layout_centerVertical="true" />
+        android:layout_centerVertical="true"
+        android:background="@drawable/next" />
     <Button
         android:id="@+id/volumeUpButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="V up"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentRight="true"
+        android:background="@drawable/plus" />
     <Button
         android:id="@+id/volumeDownButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="V down"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/volumeUpButton" />
+        android:layout_below="@+id/volumeUpButton"
+        android:background="@drawable/minus" />
 </RelativeLayout>

@@ -4,10 +4,16 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:minWidth="25px"
-    android:minHeight="25px">
+    android:minHeight="25px"
+    android:background="#353535">
+    <ImageView
+        android:src="@drawable/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView1" />
     <Button
         android:id="@+id/MyButtonn"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Find Devices" />
+        android:background="@drawable/bluetooth" />
 </LinearLayout>

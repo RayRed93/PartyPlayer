@@ -8,7 +8,7 @@ using Android.Widget;
 namespace PartyPlayer.Sensors
 {
 
-    [Activity(Label = "MotionDetector", MainLauncher = true, Icon = "@drawable/icon")]
+    [Activity(Label = "MotionDetector", MainLauncher = true, Icon = "@drawable/icons")]
     public class Sensors: Activity, ISensorEventListener
     {
         private float _shake;
@@ -23,7 +23,7 @@ namespace PartyPlayer.Sensors
             base.OnCreate(bundle);
             SetContentView(Resource.Layout.Main);
             _sensorManager = (SensorManager)GetSystemService(SensorService);
-            _sensorTextView = FindViewById<TextView>(Resource.Id.accelerometer_text);
+           // _sensorTextView = FindViewById<TextView>(Resource.Id.accelerometer_text);
 
             _sensorTextView.TextSize = 30;
         }

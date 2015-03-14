@@ -3,5 +3,5 @@
 	<uses-sdk />
 	<uses-permission android:name="android.permission.BLUETOOTH" />
 	<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-	<application android:label="PartyPlayer" android:icon="@drawable/Icon"></application>
+	<application android:label="PartyPlayer" android:icon="@drawable/Icons"></application>
 </manifest>

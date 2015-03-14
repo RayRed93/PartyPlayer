@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartyPlayer", "PartyPlayer\PartyPlayer.csproj", "{FE2D460B-8F41-4DF5-B438-D83BA5F60354}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartyForms", "PartyForms\PartyForms.csproj", "{D385D208-0D4F-4D6C-9908-5865044CEF58}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,6 +19,10 @@ Global
 		{FE2D460B-8F41-4DF5-B438-D83BA5F60354}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE2D460B-8F41-4DF5-B438-D83BA5F60354}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FE2D460B-8F41-4DF5-B438-D83BA5F60354}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{D385D208-0D4F-4D6C-9908-5865044CEF58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D385D208-0D4F-4D6C-9908-5865044CEF58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D385D208-0D4F-4D6C-9908-5865044CEF58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D385D208-0D4F-4D6C-9908-5865044CEF58}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

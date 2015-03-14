@@ -64,7 +64,7 @@ namespace PartyPlayer
 		{
 			
 			// aapt resource value: 0x7f060003
-			public const int MyButton = 2131099651;
+			public const int accelerometer_text = 2131099651;
 			
 			// aapt resource value: 0x7f060000
 			public const int button_scan = 2131099648;

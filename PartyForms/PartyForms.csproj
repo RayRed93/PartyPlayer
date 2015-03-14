@@ -31,6 +31,11 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <Win32Resource>
+    </Win32Resource>
+  </PropertyGroup>
+  <PropertyGroup />
   <ItemGroup>
     <Reference Include="InTheHand.Net.Personal">
       <HintPath>..\packages\32feet.NET.3.5.0.0\lib\net\InTheHand.Net.Personal.dll</HintPath>

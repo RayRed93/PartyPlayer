@@ -20,7 +20,6 @@ namespace PartyForms
 {
     public partial class Form1 : Form
     {
-        private BluetoothAddress ddd;
         List<string> listdevices = new List<string>();
         public Form1()
         {
@@ -31,8 +30,8 @@ namespace PartyForms
             this.TopMost = true;
             pictureBox1.BackColor = Color.Red;
             connectDevice();
-        }
 
+        }
         private void transparentStop(object sender, EventArgs e)
         {
             this.Opacity = 1;
@@ -99,7 +98,7 @@ namespace PartyForms
             }
         }
 
-		BluetoothListener listener;
+        BluetoothListener listener;
 
         private void connectDevice()
         {
@@ -108,54 +107,59 @@ namespace PartyForms
 
             serviceClass = BluetoothService.RFCommProtocol;
 
-			listener = new BluetoothListener(UUID)
-			{
-				ServiceName = "MyService"
-			};
-			listener.Start();
+            listener = new BluetoothListener(UUID)
+            {
+                ServiceName = "MyService"
+            };
+            listener.Start();
 
-			Task.Run(() => Listener());
-            
+            Task.Run(() => Listener());
+
         }
 
-		private void Listener()
-		{
-			try
-			{
-				while (true)
-				{
-					using (var client = listener.AcceptBluetoothClient())
-					{
-                        
-                            pictureBox1.BackColor = Color.Green;
-                            
-                            if (label2.InvokeRequired)
-                            {
-                                label2.Invoke(new MethodInvoker(delegate { label2.Text = client.RemoteMachineName; }));
-                            }
+        private void Listener()
+        {
+            StreamReader streamReader;
+            try
+            {
 
-						using (var streamReader = new StreamReader(client.GetStream()))
-						{
-							try
-							{
-                                var buffer = new char[4];
-                                var content = streamReader.ReadLine();
-                                KeySimulationPC((Keys)int.Parse(content));
-							}
-							catch (IOException)
-							{
-								client.Close();
-								break;
-							}
-						}
-					}
-				}
-			}
-			catch (Exception exception)
-			{
-				// todo handle the exception
-				// for the sample it will be ignored
-			}
+                using (var client = listener.AcceptBluetoothClient())
+                {
+
+                    pictureBox1.BackColor = Color.Green;
+                    if (label2.InvokeRequired)
+                    {
+                        label2.Invoke(new MethodInvoker(delegate { label2.Text = client.RemoteMachineName; }));
+                    }
+                    streamReader = new StreamReader(client.GetStream());
+                    while (true)
+                    {
+                        try
+                        {
+                            var buffer = new char[4];
+                            var content = streamReader.ReadLine();
+                            KeySimulationPC((Keys)int.Parse(content));
+                        }
+                        catch (IOException)
+                        {
+                            client.Close();
+                            break;
+                        }
+
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                // todo handle the exception
+                // for the sample it will be ignored
+            }
         }
+
+        private void close_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
     }
 }

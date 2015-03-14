@@ -5,21 +5,39 @@ using System.Text;
 
 using Android.App;
 using Android.Content;
+using Android.Hardware;
 using Android.OS;
 using Android.Runtime;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
-
+using PartyPlayer.Sensors;
 using PartyPlayer.Bluetooth;
 
 namespace PartyPlayer
 {
 	[Activity(Label = "Player")]
-	public class PlayerActivity : Activity
+    public class PlayerActivity : Activity, ISensorEventListener
 	{
-		protected override void OnCreate(Bundle bundle)
+
+        private Sensor accel;
+        private Sensor ori;
+        private float _shake = 0;
+        private float _flip = 0;
+        public bool Shaked = false;
+        public bool Upside = false;
+        private static readonly object SyncLock = new object();
+        private SensorManager sensorManager;
+        
+        
+        
+        protected override void OnCreate(Bundle bundle)
 		{
 			base.OnCreate(bundle);
+
+            sensorManager = (SensorManager)GetSystemService(SensorService);
+            accel = sensorManager.GetDefaultSensor(SensorType.Accelerometer);
+            ori = sensorManager.GetDefaultSensor(SensorType.Orientation);
 
 			RequestedOrientation = Android.Content.PM.ScreenOrientation.Portrait;
 			SetContentView(Resource.Layout.Player);
@@ -33,19 +51,44 @@ namespace PartyPlayer
 			
 		}
 
-		protected override void OnStop()
+	    protected override void OnPause()
+	    {
+	        base.OnPause();
+	        sensorManager.UnregisterListener(this);
+	    }
+
+	    protected override void OnStop()
 		{
 			base.OnStop();
 			Bluetooth.Bluetooth.SendData("151");
 		}
 
-		//protected override void OnResume()
-		//{
-		//	base.OnResume();
-		//	if(!Bluetooth.Bluetooth.IsConnected)
-		//		Bluetooth.Bluetooth.DeviceConnect();
-		//}
 
-		
-	}
+
+        public void OnAccuracyChanged(Sensor sensor, SensorStatus accuracy)
+        {
+        }
+
+        public void OnSensorChanged(SensorEvent e)
+        {
+           lock (SyncLock)
+            {
+
+                if (e.Sensor.Type == SensorType.Orientation)
+                    _flip = e.Values[0];
+                if (e.Sensor.Type == SensorType.Accelerometer)
+                    _shake = (e.Values[0] * e.Values[1] * e.Values[2])/3;
+
+
+                if (_flip > 80 || _flip < 100) Upside = true;
+                else Upside = false;
+                if (_shake > 4) Shaked = true;
+                else Shaked =false;
+                Log.Debug(_flip.ToString(),_shake.ToString());
+
+            }
+
+        
+        }
+    }
 }

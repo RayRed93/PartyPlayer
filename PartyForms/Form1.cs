@@ -15,7 +15,6 @@ namespace PartyForms
 {
     public partial class Form1 : Form
     {
-        private BluetoothAddress ddd;
         List<string> listdevices = new List<string>();
         public Form1()
         {
@@ -25,9 +24,9 @@ namespace PartyForms
             this.Location = new Point(Screen.PrimaryScreen.WorkingArea.Width - this.Width, Screen.PrimaryScreen.WorkingArea.Height - this.Height);
             this.TopMost = true;
             pictureBox1.BackColor = Color.Red;
-            //KeySimulationPC(Keys.MediaNextTrack);
-        }
+            connectDevice();
 
+        }
         private void transparentStop(object sender, EventArgs e)
         {
             this.Opacity = 1;
@@ -37,42 +36,7 @@ namespace PartyForms
         {
             this.Opacity = .5;
         }
-        private void listBluetoth()
-        {
-            BluetoothClient client = new BluetoothClient();
 
-
-            Task t = Task.Run(() =>
-            {
-                var devices = client.DiscoverDevicesInRange();
-                foreach (BluetoothDeviceInfo d in devices)
-                {
-                    ddd = d.DeviceAddress;
-                    //comboBox1.Items.Add(d.DeviceName);
-                    //listdevices.Add(d.DeviceName);
-                    listdevices.Add(d.DeviceAddress.ToString());
-                }
-
-            });
-            t.Wait();
-            if (t.IsCompleted)
-            {
-                foreach (string d in listdevices)
-                {
-                    comboBox1.Items.Add(d);
-                }
-
-            }
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-            comboBox1.Text = "Searching...";
-            listBluetoth();
-            comboBox1.Text = "Found:" + listdevices.Count;
-
-        }
 
         private void KeySimulationPC(Keys key)
         {
@@ -129,43 +93,68 @@ namespace PartyForms
             }
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        BluetoothListener listener;
+
+        private void connectDevice()
         {
-            string n = comboBox1.Text;
-            MessageBox.Show(n);
-            BluetoothAddress addr = BluetoothAddress.Parse(n);
             Guid serviceClass;
             Guid UUID = new Guid("00001101-0000-1000-8000-00805f9b34fb");
 
             serviceClass = BluetoothService.RFCommProtocol;
-           
-            var ep = new BluetoothEndPoint(addr, serviceClass);
-            var cli = new BluetoothClient();
-            cli.Connect(ep);
-            
-            Stream peerStream = cli.GetStream();
-            byte[] buf = new byte[1000];
-            int readLen = peerStream.Read(buf, 0, buf.Length);
-            if (readLen == 0) {
-                Console.WriteLine("Connection is closed");
-            } else {
-                Console.WriteLine("Recevied {0} bytes", readLen);
+
+            listener = new BluetoothListener(UUID)
+            {
+                ServiceName = "MyService"
+            };
+            listener.Start();
+
+            Task.Run(() => Listener());
+
+        }
+
+        private void Listener()
+        {
+            StreamReader streamReader;
+            try
+            {
+
+                using (var client = listener.AcceptBluetoothClient())
+                {
+
+                    pictureBox1.BackColor = Color.Green;
+                    if (label2.InvokeRequired)
+                    {
+                        label2.Invoke(new MethodInvoker(delegate { label2.Text = client.RemoteMachineName; }));
+                    }
+                    streamReader = new StreamReader(client.GetStream());
+                    while (true)
+                    {
+                        try
+                        {
+                            var buffer = new char[4];
+                            var content = streamReader.ReadLine();
+                            KeySimulationPC((Keys)int.Parse(content));
+                        }
+                        catch (IOException)
+                        {
+                            client.Close();
+                            break;
+                        }
+
+                    }
+                }
             }
-                MessageBox.Show("Koniec połączenia");
+            catch (Exception exception)
+            {
+                // todo handle the exception
+                // for the sample it will be ignored
+            }
         }
 
-        static void Process(IAsyncResult result)
+        private void close_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Dupa");
+            this.Close();
         }
-
-        private static void DataReceivedHandler(object sender,SerialDataReceivedEventArgs e)
-        {
-            MessageBox.Show("Dupa");
-        }
-
-      
-        
 
     }
 }

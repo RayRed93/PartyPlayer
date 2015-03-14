@@ -23,9 +23,7 @@ namespace PartyPlayer.Bluetooth
 
 		public override View GetView(int position, View convertView, ViewGroup parent)
 		{
-			View view = convertView;
-			if (view == null)
-				view =  (base.Context.GetSystemService(Activity.LayoutInflaterService) as LayoutInflater).Inflate(Resource.Layout.bluetooth_device, null);
+			var	view =  (base.Context.GetSystemService(Activity.LayoutInflaterService) as LayoutInflater).Inflate(Resource.Layout.bluetooth_device, null);
 		    view.FindViewById<TextView>(Resource.Id.txtView).Text = base.GetItem(position);
 			if (position < SelectDevice.pariedDevicesCount)
 			{
@@ -34,7 +32,8 @@ namespace PartyPlayer.Bluetooth
 			}
 
 			return view;
-		}
+		}
+
 	}
 
 	[Activity(Label = "SelectDevice")]

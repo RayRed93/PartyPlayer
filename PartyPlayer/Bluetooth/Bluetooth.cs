@@ -40,7 +40,12 @@ namespace PartyPlayer.Bluetooth
             btSocket = device.CreateRfcommSocketToServiceRecord(UUID.FromString("00001101-0000-1000-8000-00805f9b34fb"));
 			await btSocket.ConnectAsync();
 			var o = btSocket.OutputStream;
-			o.WriteByte(7);
+			string st = "176\n";
+			byte[] array = Encoding.Default.GetBytes(st);
+			//byte[] bufor = new byte[]{125,125,5,5};
+			
+			
+			o.Write(array, 0, array.Length);
 			//await _socket.InputStream.ReadAsync(buffer, 0, buffer.Length)
 		}
 		public static async Task SendData(byte[] buffer)

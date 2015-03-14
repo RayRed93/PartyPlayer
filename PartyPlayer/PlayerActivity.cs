@@ -11,7 +11,6 @@ using Android.Runtime;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
-using PartyPlayer.Sensors;
 using PartyPlayer.Bluetooth;
 
 namespace PartyPlayer

@@ -24,10 +24,10 @@ namespace PartyPlayer.Bluetooth
 		public override View GetView(int position, View convertView, ViewGroup parent)
 		{
 			var	view =  (base.Context.GetSystemService(Activity.LayoutInflaterService) as LayoutInflater).Inflate(Resource.Layout.bluetooth_device, null);
-		    view.FindViewById<TextView>(Resource.Id.txtView).Text = base.GetItem(position);
+			view.FindViewById<TextView>(Resource.Id.txtView).Text = base.GetItem(position);
 			if (position < SelectDevice.pariedDevicesCount)
 			{
-                view.FindViewById<TextView>(Resource.Id.txtView).SetCompoundDrawablesWithIntrinsicBounds(base.Context.Resources.GetDrawable(Resource.Drawable.paired),
+				view.FindViewById<TextView>(Resource.Id.txtView).SetCompoundDrawablesWithIntrinsicBounds(base.Context.Resources.GetDrawable(Resource.Drawable.paired),
 					null, null, null);
 			}
 

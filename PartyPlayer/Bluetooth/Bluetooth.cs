@@ -39,18 +39,17 @@ namespace PartyPlayer.Bluetooth
 
 			if (PPApplication.device == null)
 				Toast.MakeText(Application.Context, "Named device not found", ToastLength.Short);
-			btSocket = PPApplication.device.CreateRfcommSocketToServiceRecord(UUID.FromString("00001101-0000-1000-8000-00805f9b34fb"));
 
+
+			btSocket = PPApplication.device.CreateRfcommSocketToServiceRecord(UUID.FromString("00001101-0000-1000-8000-00805f9b34fb"));
 			await btSocket.ConnectAsync();
 			
 		
 		}
 		public static async Task SendData(string keycode)
-		{
-			
-				
+		{	
 				byte[] buffer = Encoding.Default.GetBytes(keycode + "\n");
-				btSocket.OutputStream.Write(buffer, 0, buffer.Length);
+				await btSocket.OutputStream.WriteAsync(buffer, 0, buffer.Length);
 
 		}
 		
